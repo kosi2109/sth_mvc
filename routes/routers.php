@@ -1,7 +1,6 @@
 <?php
-
+// implement your routes here
+use app\Route;
 use controllers\HomeController;
 
 Route::get('/',[HomeController::class,'index']);
-Route::get('/users',[HomeController::class,'index']);
-Route::post('/',[HomeController::class,'post']);

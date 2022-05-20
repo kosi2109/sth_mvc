@@ -2,14 +2,15 @@
 declare (strict_types = 1);
 
 namespace app;
+use app\Route;
 
-use Route;
-use controllers\HomeController;
 
 class App
 {
-    public function __construct(public array $config)
+    public static $pdo;
+    public function __construct($pdo)
     {
+        self::$pdo = $pdo;
     }
     public function boot() : void
     {
@@ -17,7 +18,11 @@ class App
         if($uri == ""){
             $uri = "/";
         }
-        Route::bild($uri,$_SERVER["REQUEST_METHOD"]);
+        $route = new Route();
+        $route::bild($uri,$_SERVER["REQUEST_METHOD"]);
     }
-    
+    public static function getDbConnection ()
+    {
+        return self::$pdo;
+    }
 }

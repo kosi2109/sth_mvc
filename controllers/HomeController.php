@@ -1,17 +1,22 @@
 <?php
 namespace controllers;
 
+use models\Movie;
+
 class HomeController
 {
     public function index()
     {
-        // return view('index');
-        var_dump(request());
+        $movie = new Movie();
+        $movies = $movie->where("id","=",1)->get();
+        return view('index',[
+            "movies" => $movies
+        ]);
     }
 
 
-    public function post()
+    public function about()
     {
-        var_dump(request());
+        return view('about');
     }
 }

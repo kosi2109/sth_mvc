@@ -4,17 +4,31 @@ namespace app;
 
 class QueryBuilder
 {
-    private string $query;
     protected $pdo;
-    public function __construct($pdo)
+    protected $table;
+    protected $query;
+    public function __construct()
     {   
-        $this->pdo=$pdo;
+
     }
 
-    public function getAll() : array
+    public function getAll()
     {
-        $statement = $this->pdo->prepare("SELECT * FROM movies");
+        $statement = $this->pdo->prepare("SELECT * FROM $this->table");
         $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $statement->fetchAll(\PDO::FETCH_OBJ);
+    }
+
+    public function where(string $column = "id" , string $operator = "=" , $value) 
+    {
+        $this->query = "SELECT * FROM $this->table WHERE $column $operator $value";
+        return $this;
+    }
+
+    public function get()
+    {
+        $statement = $this->pdo->prepare($this->query);
+        $statement->execute();
+        return $statement->fetchAll(\PDO::FETCH_OBJ);
     }
 }

@@ -1,9 +1,17 @@
 <?php
 require "./vendor/autoload.php";
-require "./config.php";
+use app\DB;
+use app\App;
+use app\Config;
+use Dotenv\Dotenv;
+$dotenv = Dotenv::createMutable(__DIR__);
+$dotenv->load();
+
 require_once "./helpers.php";
 require_once "./routes/routers.php";
-use app\App;
 
-$app = new App($config);
+$config = new Config();
+$db = new DB($config->getDataBaseConfig());
+$pdo = $db->connect();
+$app = new App($pdo);
 $app->boot();
